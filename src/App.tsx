@@ -1,12 +1,11 @@
 import React from 'react';
 import './App.css';
+import {TodoList} from "./components/TodoList";
 
 const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        Hello World!
-      </header>
+    <div>
+      <TodoList/>
     </div>
   );
 }
