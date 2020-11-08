@@ -32,3 +32,24 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Wie wurde das Projekt erstellt?
+`create-react-app` global mit npm installieren
+
+In den Ordner, in dem man das Projekt erstellen möchte: 
+`npx create-react-app my-app --template typescript` ausführen (my-app durch Appnamen ersetzem)
+
+Mehr Details: https://create-react-app.dev/docs/getting-started/
+
+## Verwendete Bibliotheken:
+
+### axios
+Axios ist ein Web-Client mit dem wir das Backend ansprechen werden
+
+###antd
+Antd ist eine Frontend-Komponenten Bibliothek: https://ant.design/
+
+Alternativen wären beispielsweise reactstrap oder material-ui
+
+## Wie erreichen wir unseren Backend-Service?
+In der package.json wird der Proxy auf die Adresse des Servers gesetzt.
