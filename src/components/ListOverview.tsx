@@ -6,10 +6,9 @@ import {AxiosResponse} from "axios";
 export function ListOverview() {
     const [todoLists, setTodoLists] = useState<TodoListView[]>([]);
     const [loaded, setLoaded] = useState<boolean>(false);
-    const [listInput, setListInput] = useState<string>("");
 
     useEffect(() => {
-        if(loaded) {
+        if (loaded) {
             return;
         }
         getTodoLists()
@@ -22,12 +21,8 @@ export function ListOverview() {
             });
     });
 
-    const onInputChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-        setListInput(event.target.value)
-    }
-
-    const addListItem = () => {
-        addTodoListCall(listInput).then((response: AxiosResponse<TodoList>) => {
+    const addListItem = (description: string) => {
+        addTodoListCall(description).then((response: AxiosResponse<TodoList>) => {
             const newTodoList: TodoListView = {
                 id: response.data.id,
                 description: response.data.description,
@@ -37,7 +32,6 @@ export function ListOverview() {
                 ...todoLists,
                 newTodoList
             ]);
-            setListInput("")
         });
     }
 
@@ -47,18 +41,55 @@ export function ListOverview() {
             {
                 todoLists.map((todoList) => {
                     return (
-                        <div key={todoList.id}>
-                            <h2>{todoList.description}</h2>
-                            {todoList.entries.length} Aufgaben vorhanden
-                        </div>
+                        <TodoListEntry todoListEntry={todoList} key={todoList.id}/>
                     )
                 })
             }
 
-            <div>
-                <input type="text" onChange={onInputChange} value={listInput}/>
-                <button onClick={addListItem} disabled={listInput.trim().length === 0}>Anlegen</button>
-            </div>
+            <DescriptionInputLine onAddButtonClick={addListItem}/>
+
         </div>
     );
+}
+
+interface TodoListEntryProps {
+    readonly todoListEntry: TodoListView
+}
+
+const TodoListEntry = (props: TodoListEntryProps) => {
+    const todoList = props.todoListEntry
+    return (
+        <div>
+            <h2>{todoList.description}</h2>
+            {todoList.entries.length} Aufgaben vorhanden
+            <ul>
+                {todoList.entries.map((entry) => {
+                    return (
+                        <li key={entry.id}>{entry.description}</li>
+                    )
+                })}
+            </ul>
+        </div>
+    )
+}
+
+interface DescriptionInputLineProps {
+    readonly onAddButtonClick: (description: string) => void;
+}
+
+const DescriptionInputLine = (props: DescriptionInputLineProps) => {
+    const onAddButtonClick = props.onAddButtonClick
+
+    const [listInput, setListInput] = useState<string>("");
+
+    const onInputChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+        setListInput(event.target.value);
+        setListInput("")
+    }
+    return (
+        <div>
+            <input type="text" onChange={onInputChange} value={listInput}/>
+            <button onClick={() => onAddButtonClick(listInput) } disabled={listInput.trim().length === 0}>Anlegen</button>
+        </div>
+    )
 }
