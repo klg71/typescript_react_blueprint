@@ -18,6 +18,11 @@ export enum EntryStatus {
     PENDING = "PENDING"
 }
 
+export interface TodoList {
+    readonly id: number;
+    readonly description: string;
+}
+
 export const dummyTodoLists: TodoListView[] = [
     {
      id: 1,
